@@ -1,5 +1,6 @@
 # cse210-ww-student-template
 Preston Tensmeyer | CSE 210
+I am practicing working with GIT.
 
 This repository contains the starter code for many different projects. They are arranged as follows:
 
