@@ -5,6 +5,8 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine();
+
+        // Will continue to loop until a valid grade (between 0 and 100) is entered by the user.
         string letter;
         int grade = -1;
         while(grade < 0 || grade > 100)
@@ -20,8 +22,10 @@ class Program
         }
         
         bool plus = true; // Determines if the grade has a plus or minus associated with it.
-        bool noPlusMinus = false;
+        bool noPlusMinus = false; // Will be used if there is not a plus or minus associated with the grade.
 
+        // Will add a plus to the grade if ones digit is 7 or above, minus if less than 3,
+        // otherwise no plus or minus with the grade.
         if (grade >=0)
         {
             int gradeRemainder = grade % 10;
@@ -37,7 +41,6 @@ class Program
                 noPlusMinus = true;
             }
         }
-
 
         if (grade >= 90)
         {
@@ -64,6 +67,7 @@ class Program
             letter = "F";
         }
 
+        // Print grade and inform student if they passed the course or not.
         if (noPlusMinus == true)
         {
             Console.WriteLine($"Your course grade: {letter}");
