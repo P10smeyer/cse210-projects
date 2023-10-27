@@ -17,8 +17,7 @@ class Program
             if(grade < 0 || grade > 100)
             {
                 Console.WriteLine("Please enter a value greater than 0 and less than 100.");
-            }
-            
+            } 
         }
         
         bool plus = true; // Determines if the grade has a plus or minus associated with it.
@@ -26,20 +25,18 @@ class Program
 
         // Will add a plus to the grade if ones digit is 7 or above, minus if less than 3,
         // otherwise no plus or minus with the grade.
-        if (grade >=0)
+        
+        int gradeRemainder = grade % 10;
+        if (gradeRemainder < 3 && gradeRemainder >= 1)
         {
-            int gradeRemainder = grade % 10;
-            if (gradeRemainder < 3)
-            {
-                plus = false;
-            }
-            else if (gradeRemainder >= 7)
-            {
-                plus = true;
-            }
-            else {
-                noPlusMinus = true;
-            }
+            plus = false;
+        }
+        else if (gradeRemainder >= 7 && gradeRemainder <= 9)
+        {
+            plus = true;
+        }
+        else {
+            noPlusMinus = true;
         }
 
         if (grade >= 90)
