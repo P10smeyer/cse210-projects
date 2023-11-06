@@ -1,3 +1,4 @@
+// A resume that will display job details.
 public class Resume
 {
     public string _name;
