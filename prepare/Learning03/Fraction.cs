@@ -4,6 +4,7 @@ using System.Dynamic;
 // Incorporates a numerator and denominator.
 class Fraction
 {
+    // Keep member variables private.
     private int _top;
     private int _bottom;
 

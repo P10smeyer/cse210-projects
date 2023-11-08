@@ -1,5 +1,6 @@
 using System;
 
+// Main program.
 class Program
 {
     static void Main(string[] args)
