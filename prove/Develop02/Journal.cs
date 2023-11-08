@@ -27,10 +27,11 @@ public class Journal
     // Saves all entries to a journal.txt file.
     public void SaveToFile()
     {
-        Console.WriteLine("Saving to Journal.txt file...");
-        string filename = "Journal.txt";
+        Console.Write("What would you like to name your text file (exclude the file extension)? ");
+        string filename = Console.ReadLine();
+        Console.WriteLine($"Saving to {filename}.txt file...");
 
-        using (StreamWriter outputFile = new StreamWriter(filename))
+        using (StreamWriter outputFile = new StreamWriter($"{filename}.txt"))
         {
             // Add to text file with the WriteLine method
             foreach (Entry entry in _entries)
@@ -46,14 +47,16 @@ public class Journal
         // added to the previous list. Will be loading and repopulaing list.
         _entries.Clear();
 
+        Console.Write("What text file would you like to load (exclude the file extension)? ");
+        string filename = Console.ReadLine();
+
         // Ensure a Journal.txt file exists before loading it.
-        if (File.Exists("Journal.txt"))
+        if (File.Exists($"{filename}.txt"))
         {
-            Console.WriteLine("Loading Journal.txt...");
-            string filename = "Journal.txt";
+            Console.WriteLine($"Loading {filename}.txt...");
         
             // Read all lines from the text file.
-            string[] lines = File.ReadAllLines(filename);
+            string[] lines = File.ReadAllLines($"{filename}.txt");
 
             foreach(string line in lines)
             {
@@ -77,7 +80,7 @@ public class Journal
         // Advise the user to add an entry if there is not an entry to load.
         else
         {
-            Console.WriteLine("'Journal.txt' does not yet exist. Select '1' to write your first journal entry.");
+            Console.WriteLine($"'{filename}.txt' does not yet exist. Try a different filename or select '1' to write your first journal entry.");
         }
     }
 }
