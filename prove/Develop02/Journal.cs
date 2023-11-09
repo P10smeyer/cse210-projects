@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Mail;
 using System.Text;
 
-
+// Class for managaging, displaying, loading, saving journal entries.
 public class Journal
 {
     // Stores list of entries created by the user. 

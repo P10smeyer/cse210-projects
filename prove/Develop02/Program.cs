@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 
+// This program allows a user to create, display, load, and save journal entries.
+// Prompts for the journal topic will be provided.
 class Program
 {
     static void Main(string[] args)
