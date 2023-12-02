@@ -39,6 +39,12 @@ class Program
                 goalManager.SetGoals(goals);
                 goalManager.ListGoalDetails(goalManager.GetScore());
             }
+            // If '3' is selected to 'Save Goals.'
+            else if (menuNumber == 3)
+            {
+                goalManager.SetGoals(goals);
+                goalManager.SaveGoals(goals);
+            }
             // If '5' is selected to 'Record Event.'
             else if (menuNumber == 5)
             {

@@ -11,6 +11,13 @@ public class GoalManager
     private List<Goal> _goals = new List<Goal>();
 
     private ChecklistGoal _checkListGoal = new ChecklistGoal("", "", "", 0, 0);
+
+    private SimpleGoal _simpleGoal = new SimpleGoal("", "", "");
+    private EternalGoal _eternalGoal = new EternalGoal("", "", "");
+
+    private bool simpleGoalIsComplete;
+    private bool eternalGoalIsComplete;
+    private bool checklistisComplete;
     
     public GoalManager(int score, string menuOptions, string optionOne, string optionTwo, string optionThree,
         string optionFour, string optionFive, string optionSix)
@@ -119,14 +126,14 @@ public class GoalManager
             // For Simple Goal.
             if(menuNumber == 1)
             {
-                SimpleGoal simpleGoal = new SimpleGoal(shortName, description, points);
-                _goals.Add(simpleGoal);
+                _simpleGoal = new SimpleGoal(shortName, description, points);
+                _goals.Add(_simpleGoal);
             }
             // For Eternal Goal.
             else if(menuNumber == 2)
             {
-                EternalGoal eternalGoal = new EternalGoal(shortName, description, points);
-                _goals.Add(eternalGoal);
+                _eternalGoal = new EternalGoal(shortName, description, points);
+                _goals.Add(_eternalGoal);
             }
         }
         // For Checklist Goal.
@@ -193,18 +200,58 @@ public class GoalManager
         int goalAccomplishedIndex = int.Parse(goalAccomplished) - 1;
         string points = _goals[goalAccomplishedIndex].GetPoints();
         int score = int.Parse(points);
+        Console.WriteLine($"Congratulations! You have earned " + _goals[goalAccomplishedIndex].GetPoints() + " points!");
         _score = score + _score;
         Goal goalType = _goals[goalAccomplishedIndex];
-        int target = _checkListGoal.GetTarget();
-        if (goalType.GetType() == typeof(ChecklistGoal))
+        if (goalType.GetType() == typeof(SimpleGoal))
+        {
+            simpleGoalIsComplete = _simpleGoal.IsComplete();
+            _simpleGoal.SetIsComplete(simpleGoalIsComplete);
+        }
+        else if (goalType.GetType() == typeof(EternalGoal))
+        {
+            eternalGoalIsComplete = _eternalGoal.IsComplete();
+            _simpleGoal.SetIsComplete(simpleGoalIsComplete);
+        }
+        else if (goalType.GetType() == typeof(ChecklistGoal))
         {
             _checkListGoal.RecordEvent(goalType);
-            bool isComplete = _checkListGoal.IsComplete();
-            if (isComplete == true)
+            checklistisComplete = _checkListGoal.IsComplete();
+            if (checklistisComplete == true)
             {
                  _score += _checkListGoal.GetBonus();
+                 Console.WriteLine($"Congratulations! You earned a " + _checkListGoal.GetBonus() + " point bonus for completing your goal!");
             }
-           
+        }
+
+    }
+
+    public void SaveGoals(List<Goal> goals)
+    {
+        Console.Write("What would you like to name your text file (exclude the file extension)? ");
+        string filename = Console.ReadLine();
+        Console.WriteLine($"Saving to {filename}.txt file...");
+
+        using (StreamWriter outputFile = new StreamWriter($"{filename}.txt"))
+        {
+            outputFile.WriteLine(_score);
+            // Add to text file with the WriteLine method
+            foreach (Goal goal in goals)
+            {
+                if (goal.GetType() == typeof(SimpleGoal))
+                {
+                    outputFile.WriteLine("Simple Goal:", goal.GetName(), goal.GetDescription(), goal.GetPoints(), simpleGoalIsComplete);
+                }
+                else if (goal.GetType() == typeof(EternalGoal))
+                {
+                    outputFile.WriteLine("Eternal Goal:", goal.GetName(), goal.GetDescription(), goal.GetPoints(), eternalGoalIsComplete);
+                }
+                // else if (goal.GetType() == typeof(ChecklistGoal))
+                // {
+                //     outputFile.WriteLine("Checklist Goal:", goal.GetName(), goal.GetDescription(), goal.GetPoints(), goal.GetBonus(), goal.GetAmountCompleted(), _checkListGoal.GetTarget());
+                //     Console.WriteLine();
+                // }
+            }
         }
     }
 }

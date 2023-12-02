@@ -14,7 +14,19 @@ public class SimpleGoal : Goal
 
     public override bool IsComplete()
     {
-        throw new NotImplementedException();
+        _isComplete = true;
+        return _isComplete;
+    }
+
+    // Gets the _isComplete
+    public bool GetIsComplete()
+    {
+        return _isComplete;
+    }
+
+    public void SetIsComplete(bool isComplete)
+    {
+        _isComplete = isComplete;
     }
 
     public override string GetStringRepresentation()
