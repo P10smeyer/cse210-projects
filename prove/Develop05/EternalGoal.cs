@@ -1,22 +1,31 @@
 public class EternalGoal : Goal
 {
+    private bool _isComplete;
+
     public EternalGoal(string name, string description, string points) : base(name, description, points)
     {
         
     }
 
-    public override void RecordEvent(Goal goal)
+    public override void RecordEvent()
     {
 
     }
 
-    public override bool IsComplete()
+     public override bool IsComplete()
     {
-        throw new NotImplementedException();
+        return _isComplete;
     }
 
-    public override string GetStringRepresentation()
+
+
+    public void SetIsComplete(bool isComplete)
     {
-        throw new NotImplementedException();
+        _isComplete = isComplete;
+    }
+
+    public override string GetStringRepresentation(string stringRepresentation)
+    {
+        return stringRepresentation;
     }
 }

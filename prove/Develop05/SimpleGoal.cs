@@ -7,19 +7,12 @@ public class SimpleGoal : Goal
         _isComplete = false;
     }
 
-    public override void RecordEvent(Goal goal)
+    public override void RecordEvent()
     {
         
     }
 
     public override bool IsComplete()
-    {
-        _isComplete = true;
-        return _isComplete;
-    }
-
-    // Gets the _isComplete
-    public bool GetIsComplete()
     {
         return _isComplete;
     }
@@ -29,8 +22,8 @@ public class SimpleGoal : Goal
         _isComplete = isComplete;
     }
 
-    public override string GetStringRepresentation()
+    public override string GetStringRepresentation(string stringRepresentation)
     {
-        throw new NotImplementedException();
+        return stringRepresentation;
     }
 }

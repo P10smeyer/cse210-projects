@@ -1,8 +1,10 @@
+
 public class ChecklistGoal : Goal
 {
     private int _amountCompleted = 0;
     private int _target;
     private int _bonus;
+    private bool _isComplete;
     public ChecklistGoal(string name, string description, string points, int target, int bonus) : base(name, description, points)
     {
         _target = target;
@@ -15,10 +17,20 @@ public class ChecklistGoal : Goal
         return _target;
     }
 
+    public void SetTarget(int target)
+    {
+        _target = target;
+    }
+
     // Gets the _bonus.
     public int GetBonus()
     {
         return _bonus;
+    }
+
+    public void SetBonus(int bonus)
+    {
+        _bonus = bonus;
     }
 
     // Gets the _target.
@@ -27,7 +39,12 @@ public class ChecklistGoal : Goal
         return _amountCompleted;
     }
 
-    public override void RecordEvent(Goal goal)
+    public void SetAmountCompleted(int amountCompleted)
+    {
+        _amountCompleted = amountCompleted;
+    }
+
+    public override void RecordEvent()
     {
         _amountCompleted += 1;
     }
@@ -36,16 +53,22 @@ public class ChecklistGoal : Goal
     {
         if (_target == _amountCompleted)
         {
-            return true;
+            _isComplete = true;
+            return _isComplete;
         }
         else
         {
-            return false;
+            _isComplete = false;
+            return _isComplete;
         }
     }
-
-    public override string GetStringRepresentation()
+    public void SetIsComplete(bool isComplete)
     {
-        throw new NotImplementedException();
+        _isComplete = isComplete;
+    }
+
+    public override string GetStringRepresentation(string stringRepresentation)
+    {
+        return stringRepresentation;
     }
 }

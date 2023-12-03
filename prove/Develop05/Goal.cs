@@ -11,9 +11,9 @@ public abstract class Goal
         _points = points;
     }
 
-    public abstract void RecordEvent(Goal goal);
+    public abstract void RecordEvent();
     public abstract bool IsComplete();
-    public abstract string GetStringRepresentation();
+    public abstract string GetStringRepresentation(string stringRepresentation);
 
     // Gets the _shortName
     public string GetName()
