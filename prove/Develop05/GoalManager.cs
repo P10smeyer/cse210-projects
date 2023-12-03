@@ -155,29 +155,12 @@ public class GoalManager
         return _goals;
     }
 
-    // Displays the players current score.
-    public void DisplayPlayerInfo(int addedScore)
-    {
-        _score = _score + addedScore;
-    }
-
-    // Lists the names of each of the goals.
-    public void DisplayGoalNames()
-    {
-        Console.WriteLine("The goals are:");
-        int i = 1;
-        foreach (Goal goal in _goals)
-        {
-            Console.WriteLine($"{i}. " + goal.GetName());
-            i++;
-        }
-    }
-
     // List the goal details (including the checkbox of whether it is complete).
-    public void ListGoalDetails()
+    public List<Goal> ListGoalDetails()
     {
         Console.WriteLine("The goals are:");
         int i = 1;
+        int goalIndex;
         foreach (Goal goal in _goals)
         {
             if (goal.GetType() == typeof(SimpleGoal))
@@ -205,43 +188,50 @@ public class GoalManager
             }
             else if (goal.GetType() == typeof(ChecklistGoal))
             {
-                int goalIndex = i - 1;
+                goalIndex = i - 1;
                 ChecklistGoal tempChecklistGoal = new ChecklistGoal(goal.GetName(), goal.GetDescription(), goal.GetPoints(), 0, 0);
                 string stringRepresentation = _stringRepresentation[goalIndex];
                 // For comma seprated values.
                 string[] parts = stringRepresentation.Split(",");
                 int amountCompleted = int.Parse(parts[5]);
+                tempChecklistGoal.SetAmountCompleted(amountCompleted);
                 int target = int.Parse(parts[6]);
+                tempChecklistGoal.SetTarget(target);
                 if (goal.IsComplete() == true)
                 {
                     if (_recordingEvent == true)
                     {
-                        Console.WriteLine($"{i}. [ X ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + (amountCompleted + 1) + "/" + target);
+                         _goals[goalIndex] = tempChecklistGoal;
+                        Console.WriteLine($"{i}. [ X ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + (tempChecklistGoal.GetAmountCompleted() + 1) + "/" + tempChecklistGoal.GetTarget());
                         _goals[goalIndex].RecordEvent();
                         _recordingEvent = false;
                     }
                     else
                     {
-                        Console.WriteLine($"{i}. [ X ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + amountCompleted + "/" + target);
+                        Console.WriteLine($"{i}. [ X ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + tempChecklistGoal.GetAmountCompleted() + "/" + tempChecklistGoal.GetTarget());
                     }
                 }
                 else
                 {
                     if (_recordingEvent == true)
                     {
-                        Console.WriteLine($"{i}. [ X ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + (amountCompleted + 1) + "/" + target);
+                        _goals[goalIndex] = tempChecklistGoal;
+                        Console.WriteLine($"{i}. [ ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + (tempChecklistGoal.GetAmountCompleted() + 1) + "/" + tempChecklistGoal.GetTarget());
                         _recordingEvent = false;
                     }
                     else
                     {
-                        Console.WriteLine($"{i}. [ ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + amountCompleted + "/" + target);
+                        Console.WriteLine($"{i}. [ ] " + goal.GetName() + " " + "(" + goal.GetDescription() + ")" + $" -- Currently completed: " + tempChecklistGoal.GetAmountCompleted() + "/" + tempChecklistGoal.GetTarget());
                     } 
                 }
             }
             i++;
         }
+        return _goals;
     }
 
+    // Records an event if a goal is completed. Will mark as complete if a simple goal or eternal goal. For a checklist goal it
+    // won't be complete until the target is reached.
     public List<Goal> RecordEvent()
     {
         ListGoalDetails();
@@ -279,29 +269,12 @@ public class GoalManager
             tempChecklistGoal.SetTarget(target);
             tempChecklistGoal.IsComplete();
             _goals[goalAccomplishedIndex] = tempChecklistGoal;
-            
-            
-            
-            
-
-
-
-            // ChecklistGoal tempChecklistGoal = new ChecklistGoal(goalType.GetName(), goalType.GetDescription(), goalType.GetPoints(), 0, 0);
-            // _goals[goalAccomplishedIndex] = tempChecklistGoal;
-            
-            
-            
-            // _checkListGoal.RecordEvent(goalType);
-            // // checklistisComplete = _checkListGoal.IsComplete();
-            // if (checklistisComplete == true)
-            // {
-            //      _score += _checkListGoal.GetBonus();
-            //      Console.WriteLine($"Congratulations! You earned a " + _checkListGoal.GetBonus() + " point bonus for completing your goal!");
-            // }
+            // _checkListGoal = tempChecklistGoal;
         }
         return _goals;
     }
 
+    // Saves created goals to a .txt file of the user's choice. This file can later be reloaded.
     public void SaveGoals(List<Goal> goals)
     {
         Console.Write("What would you like to name your text file (exclude the file extension)? ");
@@ -320,12 +293,13 @@ public class GoalManager
         }
     }
 
+    // Loads goals for further manipulation by the user in the program.
     public List<Goal> LoadGoals()
     {
        _goals.Clear();
         Console.Write("What text file would you like to load (exclude the file extension)? ");
         string filename = Console.ReadLine();
-        // Ensure a Journal.txt file exists before loading it.
+        // Ensure a file exists before loading it.
         if (File.Exists($"{filename}.txt"))
         {
             Console.WriteLine($"Loading {filename}.txt...");
@@ -357,7 +331,6 @@ public class GoalManager
                 {
                      _simpleGoal = new SimpleGoal(parts[1], parts[2], parts[3]);
                      _simpleGoal.SetIsComplete(bool.Parse(parts[4]));
-                    //  _simpleGoal.SetIsComplete(true);
                      _goals.Add(_simpleGoal);
                      _stringRepresentation.Add("Simple Goal" + "," + parts[1] + "," + parts[2] + "," + parts[3] + "," + parts[4]);
                 }
@@ -365,7 +338,6 @@ public class GoalManager
                 {
                     _eternalGoal = new EternalGoal(parts[1], parts[2], parts[3]);
                     _eternalGoal.SetIsComplete(bool.Parse(parts[4]));
-                    // _eternalGoal.SetIsComplete(true);
                     _goals.Add(_eternalGoal);
                     _stringRepresentation.Add("Eternal Goal" + "," + parts[1] + "," + parts[2] + "," + parts[3] + "," + parts[4]);
                 }
@@ -380,7 +352,6 @@ public class GoalManager
                 }  
             }  
         }
-        Console.WriteLine("The following goals have been loaded:");
         return _goals;
     }
 

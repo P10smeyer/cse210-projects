@@ -36,8 +36,8 @@ class Program
             // If '2' is selected to 'List Goals.'
             else if (menuNumber == 2)
             {
+                goals = goalManager.ListGoalDetails();
                 goalManager.SetGoals(goals);
-                goalManager.ListGoalDetails();
             }
             // If '3' is selected to 'Save Goals.'
             else if (menuNumber == 3)

@@ -7,23 +7,25 @@ public class EternalGoal : Goal
         
     }
 
+    // Didn't utilize this method from the base class.
     public override void RecordEvent()
     {
-
+        throw new NotImplementedException();
     }
 
-     public override bool IsComplete()
+    // Use for determining if goal is complete.
+    public override bool IsComplete()
     {
         return _isComplete;
     }
 
-
-
+    // Sets goal completion status.
     public void SetIsComplete(bool isComplete)
     {
         _isComplete = isComplete;
     }
 
+    // The string representation of a goal (exported to a text file).
     public override string GetStringRepresentation(string stringRepresentation)
     {
         return stringRepresentation;
