@@ -1,20 +1,23 @@
+// Monthly budget which inherits from the 'Budget' class.
 public class MonthlyBudget : Budget
 {
     private double _totalAmountSpent;
     private double _totalAmountRemaining;
     
-
+    // Constructor for 'Monthly Budget.'
     public MonthlyBudget(double monthlyBudget, double totalAmountSpent, double totalAmountRemaining) : base(monthlyBudget)
     {
         _totalAmountSpent = totalAmountSpent;
         _totalAmountRemaining = totalAmountRemaining;
     }
 
+    // User can create their monthly budget (must be positive and non-zero).
     public void CreateMonthlyBudget(MonthlyBudget monthlyBudget)
     {
         Console.Write("What will be your budget this month (excluding the '$' sign)? ");
         string selectedMonthlyBudget = Console.ReadLine();
         double number;
+        // If the selectedMonthlyBudget is a double and non-zero the budget will be created.
         if (Double.TryParse(selectedMonthlyBudget, out number))
         {
             if (number > 0)

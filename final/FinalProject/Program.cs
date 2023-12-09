@@ -11,7 +11,7 @@ class Program
         while (keepGoing)
         {
             Menu menu = new Menu();
-            mainMenuSelection = menu.MainMenuSelection(8);
+            mainMenuSelection = menu.MainMenuSelection(10);
             // '1. Set Your Monthly Budget' is selected by the user.
             if (mainMenuSelection == 1)
             {
@@ -22,8 +22,30 @@ class Program
             {
                 budgetManager.BudgetStatus();
             }
+            // '3. Add a Budget Category' is selected by the user.
+            else if (mainMenuSelection == 3)
+            {
+                budgetManager.AddBudgetCategory();
+            }
+            // '4. Remove a Budget Category' is selected by the user.
+            else if (mainMenuSelection == 4)
+            {
+                budgetManager.RemoveBudgetCategory();
+            }
+            // '5. Display Budget Categories' is selected by the user.
+            else if (mainMenuSelection == 5)
+            {
+                budgetManager.DisplayBudgetCategories();
+            }
+            // '6. Record a Transaction' is selected by the user.
+            else if (mainMenuSelection == 6)
+            {
+                Menu transactionMenu = new Menu();
+                int transactionMenuSelection = transactionMenu.RecordTransactionMenu(3);
+                budgetManager.Transactions(transactionMenuSelection);
+            }
             // '8. Quit' is selected by the user.
-            else if (mainMenuSelection == 8)
+            else if (mainMenuSelection == 10)
             {
                 keepGoing = false;
                 Console.WriteLine("Thanks for using the budgeting program. Hope to see you soon!");
