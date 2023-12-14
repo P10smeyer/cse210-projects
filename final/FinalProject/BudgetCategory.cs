@@ -4,8 +4,8 @@ public class BudgetCategory : Budget
 {
     private string _budgetCategory; // A category for the budget.
     private double _categoryBudget; // The chosen budget for the category.
-    private double _budgetSpentInCategory;
-    private double _budgetRemainingInCategory;
+    private double _budgetSpentInCategory; // The budget spent in a category.
+    private double _budgetRemainingInCategory; // The budget remaining in a category.
     
 
     // Constructor for 'Budget Category.'
@@ -17,6 +17,7 @@ public class BudgetCategory : Budget
         _budgetRemainingInCategory = budgetRemainingInCategory;
     }
 
+    // Add and returns a budget category.
     public BudgetCategory AddCategory(MonthlyBudget monthlyBudget)
     {
         BudgetCategory addBudgetCategory = new BudgetCategory(0, 0, "", 0, 0);
@@ -85,6 +86,7 @@ public class BudgetCategory : Budget
         return addBudgetCategory;
     }
 
+    // Returns a category index to be removed.
     public int RemoveCategory(List<BudgetCategory> budgetCategories)
     {
         ListCategories(budgetCategories);
@@ -109,6 +111,7 @@ public class BudgetCategory : Budget
         return removeCategoryIndex;
     }
 
+    // List all categories with budget and budget remaining.
     public void ListCategories(List<BudgetCategory> budgetCategories)
     {
         Console.WriteLine("Below are your categories:");
@@ -119,7 +122,7 @@ public class BudgetCategory : Budget
         int i = 1;
         foreach (BudgetCategory category in budgetCategories)
         {
-            Console.WriteLine($"{i}. {category._budgetCategory}, Budget: {category._categoryBudget}");
+            Console.WriteLine($"{i}. {category._budgetCategory}, Budget: ${String.Format("{0:0.00}", category._categoryBudget)}, Budget Remaining: ${String.Format("{0:0.00}", category._budgetRemainingInCategory)}");
             i++;
         }
     }
@@ -139,7 +142,6 @@ public class BudgetCategory : Budget
             }
             else
             {
-                // Console.WriteLine($"Please enter a value between 1 and {menuLength}");
                 return false;
             }
         }
@@ -164,6 +166,24 @@ public class BudgetCategory : Budget
     public string GetBudgetCategory()
     {
         return _budgetCategory;
+    }
+
+    // Gets the category Budget.
+    public double GetCategoryBudget()
+    {
+        return _categoryBudget;
+    }
+
+    // Gets the Budget Spent In Category.
+    public double GetBudgetSpentInCategory()
+    {
+        return _budgetSpentInCategory;
+    }
+
+    // Gets the Budget Remaining In Category.
+    public double GetBudgetRemainingInCategory()
+    {
+        return _budgetRemainingInCategory;
     }
 
     // Sets the category budget spent.

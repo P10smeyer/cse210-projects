@@ -1,8 +1,8 @@
 // Monthly budget which inherits from the 'Budget' class.
 public class MonthlyBudget : Budget
 {
-    private double _totalAmountSpent;
-    private double _totalAmountRemaining;
+    private double _totalAmountSpent; // Total amount spent in a monthly budget.
+    private double _totalAmountRemaining; // Total amount remaining in a monthly budget.
     
     // Constructor for 'Monthly Budget.'
     public MonthlyBudget(double monthlyBudget, double totalAmountSpent, double totalAmountRemaining) : base(monthlyBudget)

@@ -7,7 +7,6 @@ public class Transactions
 
     int _menuNumber; // Identifies valid user menu number selection.
 
-    bool keepGoing = true; // Determine if while loop should end.
 
     // Constructor for transactions.
     public Transactions(double costOfTransaction, double sumOfTransactions, string budgetCategory)
@@ -17,7 +16,8 @@ public class Transactions
         _budgetCategory = budgetCategory;
     }
 
-    public Transactions RecordPurchase(List<BudgetCategory> budgetCategories)
+    // Record a transaction which includes a purchase or a credit/refund.
+    public Transactions RecordTransaction(List<BudgetCategory> budgetCategories, bool isPurchase)
     {
         Transactions transactions = new Transactions(0, 0, "");
         // If the enteredCost is a double and non-zero the purchase will be recorded.
@@ -31,7 +31,7 @@ public class Transactions
             {
                 if (_costOfTransaction > 0)
                 {
-                    Console.WriteLine($"Your monthly budget is set to ${Double.Round(_costOfTransaction, 2)}");
+                    Console.WriteLine($"Your purchase is set to ${Double.Round(_costOfTransaction, 2)}");
                     BudgetCategory tempBudgetCategory = new BudgetCategory(0, 0, "", 0, 0);
                     tempBudgetCategory.ListCategories(budgetCategories);
                     bool confirmingCategory = true;
@@ -44,19 +44,6 @@ public class Transactions
                         if(isValidMenuSelection == true && int.Parse(_budgetCategory)> 0 && int.Parse(_budgetCategory) < (budgetCategories.Count + 1))
                         {
                             confirmingCategory = false;
-                            // foreach (BudgetCategory budgetCategory in budgetCategories)
-                            // {   
-                            //     BudgetCategory tempBudgetCategory1 = new BudgetCategory(0, 0, "", 0, 0);
-                            //     tempBudgetCategory1 = budgetCategory;
-                            //     if (tempBudgetCategory1.GetBudgetCategory().ToLower() == _budgetCategory.ToLower())
-                            //     {
-                            //         confirmingCategory = false;
-                            //     }
-                            //     else
-                            //     {
-                                    
-                            //     }
-                            // }
                         }
                         else
                         {
@@ -64,19 +51,27 @@ public class Transactions
                             confirmingCategory = true;
                         } 
                     }
-                    transactions = new Transactions(_costOfTransaction, _sumOfTransactions, _budgetCategory);
+                    if (isPurchase)
+                    {
+                        transactions = new Transactions(_costOfTransaction, _sumOfTransactions, _budgetCategory);
+                    }
+                    // Is a refund or a credit. Transaction will have a negative value.
+                    else if (isPurchase == false)
+                    {
+                        transactions = new Transactions(-_costOfTransaction, _sumOfTransactions, _budgetCategory);
+                    }
                     SetSumOfTransactions();
                     SetMenuNumber();
                     settingTransactionCost = false;
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid monthly budget (greater than '0').");
+                    Console.WriteLine("Please enter a valid value (greater than '0').");
                 }
             }
             else
             {
-                Console.WriteLine("Please enter a valid monthly budget.");
+                Console.WriteLine("Please enter a valid value.");
             }     
         }
         return transactions;
@@ -92,7 +87,6 @@ public class Transactions
             _menuNumber = int.Parse(menuSelection);
             if (_menuNumber > 0 && _menuNumber < (menuLength + 1))
             {
-                keepGoing = false;
                 return true;
             }
             else
@@ -107,10 +101,28 @@ public class Transactions
         }
     }
 
+    // Display Transactions.
+    public void DisplayTransactions(List<Transactions> transactions, List<BudgetCategory> budgetCategories)
+    {
+        int i = 1;
+        foreach(Transactions transaction in transactions)
+        {   
+            int index = int.Parse(transaction.GetBudgetCategory()) - 1;
+            Console.WriteLine($"{i}. Amount: ${String.Format("{0:0.00}", transaction.GetCostOfTransaction())}, Budget Category: {budgetCategories[index].GetBudgetCategory()}");
+            i++;
+        }
+    }
+
     // Gets the budget category.
     public string GetBudgetCategory()
     {
         return _budgetCategory;
+    }
+
+    // Gets the sume of transactions.
+    public double GetSumOfTransactions()
+    {
+        return _sumOfTransactions;
     }
 
     // Gets the cost of a transaction.
@@ -130,7 +142,6 @@ public class Transactions
     {
         _menuNumber = int.Parse(_budgetCategory);
     }
-    
     
     // Returns the _sumOfTransactions which can be applied to a budget category.
     public void SetSumOfTransactions()

@@ -40,9 +40,24 @@ class Program
             // '6. Record a Transaction' is selected by the user.
             else if (mainMenuSelection == 6)
             {
-                Menu transactionMenu = new Menu();
-                int transactionMenuSelection = transactionMenu.RecordTransactionMenu(3);
+                Menu transactionsMenu = new Menu();
+                int transactionMenuSelection = transactionsMenu.RecordTransactionMenu(3);
                 budgetManager.Transactions(transactionMenuSelection);
+            }
+            // '7. Load Budget' is selected by the user.
+            else if (mainMenuSelection == 7)
+            {
+                budgetManager.LoadMonthlyBudget();
+            }
+            // '8. Save Budget' is selected by the user.
+            else if (mainMenuSelection == 8)
+            {
+                budgetManager.SaveMonthlyBudget();
+            }
+            // '9. Reset Budget' is selected by the user.
+            else if (mainMenuSelection == 9)
+            {
+                budgetManager.ResetBudget();
             }
             // '8. Quit' is selected by the user.
             else if (mainMenuSelection == 10)

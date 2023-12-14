@@ -20,7 +20,7 @@ public class Menu
             Console.WriteLine("3. Add a Budget Category");
             Console.WriteLine("4. Remove a Budget Category");
             Console.WriteLine("5. Display Budget Categories");
-            Console.WriteLine("6. Record a Transaction");
+            Console.WriteLine("6. Transactions");
             Console.WriteLine("7. Load Budget");
             Console.WriteLine("8. Save Budget");
             Console.WriteLine("9. Reset Budget");
@@ -41,6 +41,7 @@ public class Menu
         return int.Parse(_menuSelection);
     }
 
+    // Sub-menu from main menu user selection of '6. Transactions'
     public int RecordTransactionMenu(int menuLength)
     {
         while (keepGoingTransactions)
